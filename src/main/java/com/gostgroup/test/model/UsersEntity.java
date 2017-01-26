@@ -16,7 +16,7 @@ public class UsersEntity {
   private String login;
   private String name;
   private String password;
-  private Collection<UserRolesEntity> userRolesById;
+  private Collection<Integer> userRoles;
 
   @Id
   @Column(name = "id")
@@ -82,13 +82,15 @@ public class UsersEntity {
     return result;
   }
 
-  @OneToMany(mappedBy = "usersByUserId")
-  public Collection<UserRolesEntity> getUserRolesById() {
-    return userRolesById;
+  @ElementCollection
+  @CollectionTable(name="user_roles", joinColumns=@JoinColumn(name="user_id"))
+  @Column(name = "role_id")
+  public Collection<Integer> getUserRoles() {
+    return userRoles;
   }
 
-  public void setUserRolesById(Collection<UserRolesEntity> userRolesById) {
-    this.userRolesById = userRolesById;
+  public void setUserRoles(Collection<Integer> userRoles) {
+    this.userRoles = userRoles;
   }
 
 }
