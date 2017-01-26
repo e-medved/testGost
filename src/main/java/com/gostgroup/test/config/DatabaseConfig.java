@@ -1,11 +1,11 @@
 package com.gostgroup.test.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -20,6 +20,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "repository")
 public class DatabaseConfig {
 
   @Autowired
@@ -31,17 +32,6 @@ public class DatabaseConfig {
   @Autowired
   private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-
-//  @Bean
-//  public DataSource dataSource() {
-//    return DataSourceBuilder
-//        .create()
-//        .username(env.getProperty("db.username"))
-//        .password(env.getProperty("db.password"))
-//        .url(env.getProperty("db.url"))
-//        .driverClassName(env.getProperty("db.driver"))
-//        .build();
-//  }
 
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Created by root on 1/26/17.
  */
-public interface UsersRepository extends CrudRepository<UsersEntity, Long> {
-
+public interface UsersRepository extends CrudRepository<UsersEntity, Integer> {
 
 }
