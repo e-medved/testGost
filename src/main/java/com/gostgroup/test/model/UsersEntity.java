@@ -1,17 +1,22 @@
 package com.gostgroup.test.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
- * Created by root on 1/25/17.
+ * Created by e.medvedev on 26.01.2017.
  */
 @Entity
 @Table(name = "users", schema = "public", catalog = "test")
 public class UsersEntity {
+  @JsonIgnore
   private int id;
   private String login;
   private String name;
   private String password;
+  private Collection<UserRolesEntity> userRolesById;
 
   @Id
   @Column(name = "id")
@@ -76,4 +81,14 @@ public class UsersEntity {
     result = 31 * result + (password != null ? password.hashCode() : 0);
     return result;
   }
+
+  @OneToMany(mappedBy = "usersByUserId")
+  public Collection<UserRolesEntity> getUserRolesById() {
+    return userRolesById;
+  }
+
+  public void setUserRolesById(Collection<UserRolesEntity> userRolesById) {
+    this.userRolesById = userRolesById;
+  }
+
 }

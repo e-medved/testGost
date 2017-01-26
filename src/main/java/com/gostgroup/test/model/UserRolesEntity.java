@@ -1,9 +1,8 @@
 package com.gostgroup.test.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 
 /**
  * Created by root on 1/25/17.
@@ -12,6 +11,8 @@ import javax.persistence.Table;
 @Table(name = "user_roles", schema = "public", catalog = "test")
 public class UserRolesEntity {
   private int id;
+  @JsonIgnore
+  private UsersEntity usersByUserId;
 
   @Id
   @Column(name = "id")
@@ -39,4 +40,16 @@ public class UserRolesEntity {
   public int hashCode() {
     return id;
   }
+
+  @ManyToOne
+  @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+  public UsersEntity getUsersByUserId() {
+    return usersByUserId;
+  }
+
+  public void setUsersByUserId(UsersEntity usersByUserId) {
+    this.usersByUserId = usersByUserId;
+  }
+
+
 }
