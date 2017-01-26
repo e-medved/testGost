@@ -1,13 +1,11 @@
 package com.gostgroup.test;
 
+import com.gostgroup.test.rest.UsersController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@ComponentScan("model")
+@ComponentScan(basePackages = {"model"}, basePackageClasses = UsersController.class)
 @EnableAutoConfiguration
 public class Application {
   public static void main(String[] args) {
