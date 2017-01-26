@@ -8,8 +8,8 @@ import javax.persistence.Table;
 /**
  * Created by root on 1/25/17.
  */
-@Entity
-@Table(name = "id_gen", schema = "public", catalog = "test")
+//@Entity
+//@Table(name = "id_gen", schema = "public", catalog = "test")
 public class IdGenEntity {
   private String id;
   private Integer idValue;

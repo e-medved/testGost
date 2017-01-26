@@ -8,8 +8,8 @@ import javax.persistence.Table;
 /**
  * Created by root on 1/25/17.
  */
-@Entity
-@Table(name = "hibernate_sequences", schema = "public", catalog = "test")
+//@Entity
+//@Table(name = "hibernate_sequences", schema = "public", catalog = "test")
 public class HibernateSequencesEntity {
   private String sequenceName;
   private Integer sequenceNextHiValue;

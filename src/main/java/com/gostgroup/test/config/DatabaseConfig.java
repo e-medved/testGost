@@ -32,16 +32,16 @@ public class DatabaseConfig {
   private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
 
-  @Bean
-  public DataSource dataSource() {
-    return DataSourceBuilder
-        .create()
-        .username(env.getProperty("db.username"))
-        .password(env.getProperty("db.password"))
-        .url(env.getProperty("db.url"))
-        .driverClassName(env.getProperty("db.driver"))
-        .build();
-  }
+//  @Bean
+//  public DataSource dataSource() {
+//    return DataSourceBuilder
+//        .create()
+//        .username(env.getProperty("db.username"))
+//        .password(env.getProperty("db.password"))
+//        .url(env.getProperty("db.url"))
+//        .driverClassName(env.getProperty("db.driver"))
+//        .build();
+//  }
 
   @Bean
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
