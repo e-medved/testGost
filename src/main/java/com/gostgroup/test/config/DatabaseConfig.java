@@ -19,7 +19,6 @@ import java.util.Properties;
  * @author root
  */
 @Configuration
-@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "repository")
 public class DatabaseConfig {
 
@@ -28,9 +27,6 @@ public class DatabaseConfig {
 
   @Autowired
   private DataSource dataSource;
-
-  @Autowired
-  private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
 
   @Bean
@@ -62,20 +58,6 @@ public class DatabaseConfig {
     entityManagerFactory.setJpaProperties(additionalProperties);
 
     return entityManagerFactory;
-  }
-
-  @Bean
-  public JpaTransactionManager transactionManager() {
-    JpaTransactionManager transactionManager =
-        new JpaTransactionManager();
-    transactionManager.setEntityManagerFactory(
-        entityManagerFactory.getObject());
-    return transactionManager;
-  }
-
-  @Bean
-  public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
-    return new PersistenceExceptionTranslationPostProcessor();
   }
 
 }
