@@ -1,8 +1,10 @@
 package com.gostgroup.test.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 
 /**
@@ -13,12 +15,18 @@ import java.util.Collection;
 public class UsersEntity {
   @JsonIgnore
   private int id;
+  @NotEmpty(message = "User login is required")
   private String login;
+  @NotEmpty(message = "User name is required")
   private String name;
+  @NotEmpty(message = "User password is required")
+  @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{8})", message = "User password must match ((?=.*\\d)(?=.*[A-Z]).{8})")
   private String password;
   private Collection<Integer> userRoles;
 
   @Id
+  @SequenceGenerator(name="user_key", sequenceName="user_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_key")
   @Column(name = "id")
   public int getId() {
     return id;

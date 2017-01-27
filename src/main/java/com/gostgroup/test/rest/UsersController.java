@@ -5,7 +5,10 @@ import com.gostgroup.test.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by root on 1/25/17.
@@ -42,28 +45,35 @@ public class UsersController {
   }
 
   @RequestMapping(value = "/users/", method = RequestMethod.POST)
-  public ResponseEntity<UsersEntity> createUser(@RequestBody UsersEntity user){
+  public ResponseEntity createUser(@Valid @RequestBody UsersEntity user, Errors errors){
 
-    if (usersRepository.exists(user.getId()))
-      return new ResponseEntity<UsersEntity>(HttpStatus.CONFLICT);
-
-    usersRepository.save(user);
-    return new ResponseEntity<UsersEntity>(HttpStatus.CREATED);
+    if (errors.hasErrors()) {
+      return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+    } else {
+      usersRepository.save(user);
+      return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
   }
 
   @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
-  public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestBody UsersEntity user){
+  public ResponseEntity updateUser(@PathVariable("id") int id, @Valid @RequestBody UsersEntity user,
+                                                Errors errors){
 
-    UsersEntity currentUser = usersRepository.findOne(id);
-    if (currentUser == null)
-      return new ResponseEntity<UsersEntity>(HttpStatus.NOT_FOUND);
+    if (errors.hasErrors()) {
+      return ResponseEntity.badRequest().body(ValidationErrorBuilder.fromBindingErrors(errors));
+    } else {
+      UsersEntity currentUser = usersRepository.findOne(id);
+      if (currentUser == null)
+        return ResponseEntity.notFound().build();
 
-    currentUser.setLogin(user.getLogin());
-    currentUser.setName(user.getName());
-    currentUser.setPassword(user.getPassword());
-    usersRepository.save(currentUser);
+      currentUser.setLogin(user.getLogin());
+      currentUser.setName(user.getName());
+      currentUser.setPassword(user.getPassword());
+      currentUser.setUserRoles(user.getUserRoles());
+      usersRepository.save(currentUser);
 
-    return new ResponseEntity<UsersEntity>(HttpStatus.OK);
+      return ResponseEntity.ok().build();
+    }
   }
 
   @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

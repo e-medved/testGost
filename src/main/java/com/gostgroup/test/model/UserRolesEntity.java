@@ -1,7 +1,5 @@
 package com.gostgroup.test.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 /**
@@ -15,6 +13,8 @@ public class UserRolesEntity {
   private int roleId;
 
   @Id
+  @SequenceGenerator(name="user_role_key", sequenceName="userroles_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="user_role_key")
   @Column(name = "id")
   public int getId() {
     return id;
