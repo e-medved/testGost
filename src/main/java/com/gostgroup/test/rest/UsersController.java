@@ -24,7 +24,7 @@ public class UsersController {
 
     Iterable<UsersEntity> users = usersRepository.findAll();
 
-    if (users != null) {
+    if (users.iterator().hasNext()) {
       return new ResponseEntity<Iterable<UsersEntity>>(users, HttpStatus.OK);
     }
     else {
