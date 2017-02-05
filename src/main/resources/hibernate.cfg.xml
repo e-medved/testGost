@@ -4,17 +4,11 @@
     "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
-    <property name="connection.url">jdbc:postgresql://85.143.209.57:5432/test</property>
-    <property name="connection.driver_class">org.postgresql.Driver</property>
-    <mapping class="com.gostgroup.test.model.AddressEntity"/>
-    <mapping class="com.gostgroup.test.model.ContactsEntity"/>
-    <mapping class="com.gostgroup.test.model.HibernateSequencesEntity"/>
-    <mapping class="com.gostgroup.test.model.IdGenEntity"/>
-    <mapping class="com.gostgroup.test.model.PlayEvolutionsEntity"/>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</property>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <mapping class="com.gostgroup.test.model.RolesEntity"/>
     <mapping class="com.gostgroup.test.model.UserRolesEntity"/>
     <mapping class="com.gostgroup.test.model.UsersEntity"/>
-    <!-- DB schema will be updated if needed -->
-    <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>
 </hibernate-configuration>
