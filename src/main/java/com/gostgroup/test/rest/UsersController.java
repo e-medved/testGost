@@ -69,7 +69,7 @@ public class UsersController {
       currentUser.setLogin(user.getLogin());
       currentUser.setName(user.getName());
       currentUser.setPassword(user.getPassword());
-      currentUser.setUserRoles(user.getUserRoles());
+      currentUser.setRoles(user.getRoles());
       usersRepository.save(currentUser);
 
       return ResponseEntity.ok().build();

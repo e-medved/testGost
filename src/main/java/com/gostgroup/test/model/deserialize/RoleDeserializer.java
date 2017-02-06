@@ -1,9 +1,8 @@
 package com.gostgroup.test.model.deserialize;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.gostgroup.test.model.RolesEntity;
 
@@ -24,13 +23,12 @@ public class RoleDeserializer extends StdDeserializer<RolesEntity> {
   }
 
   @Override
-  public RolesEntity deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+  public RolesEntity deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
 
-    jsonParser.nextToken();
-    if (JsonToken.END_OBJECT != jsonParser.nextToken()) {
-      int roleId = jsonParser.getValueAsInt();
-      return new RolesEntity(roleId);
-    }
-    return null;
+    JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+    int id = node.intValue();
+
+    return new RolesEntity(id);
+
   }
 }

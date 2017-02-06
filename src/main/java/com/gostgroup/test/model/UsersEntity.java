@@ -26,7 +26,6 @@ public class UsersEntity {
   @NotEmpty(message = "User password is required")
   @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{8})", message = "User password must match ((?=.*\\d)(?=.*[A-Z]).{8})")
   private String password;
-//  private Collection<Integer> userRoles;
 
   @Id
   @SequenceGenerator(name="user_key", sequenceName="user_seq", allocationSize = 1)
@@ -94,23 +93,10 @@ public class UsersEntity {
     return result;
   }
 
-//  @ElementCollection
-//  @CollectionTable(name="user_roles", joinColumns=@JoinColumn(name="user_id"))
-//  @Column(name = "role_id")
-//  public Collection<Integer> getUserRoles() {
-//    return userRoles;
-//  }
-//
-//  public void setUserRoles(Collection<Integer> userRoles) {
-//    this.userRoles = userRoles;
-//  }
-
   private Set<RolesEntity> roles = new HashSet<RolesEntity>();
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(cascade = CascadeType.MERGE)
   @JoinTable(name = "user_roles",
-      //foreign key for CarsEntity in user_roles table
       joinColumns = @JoinColumn(name = "user_id"),
-      //foreign key for other side - EmployeeEntity in employee_car table
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   public Set<RolesEntity> getRoles() {
     return roles;
@@ -118,10 +104,6 @@ public class UsersEntity {
 
   public void setRoles(Set<RolesEntity> roles) {
     this.roles = roles;
-  }
-
-  public void addRoles(RolesEntity role) {
-    roles.add(role);
   }
 
 }
