@@ -1,5 +1,8 @@
 package com.gostgroup.test.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.gostgroup.test.model.deserialize.RoleDeserializer;
+
 import javax.persistence.*;
 
 /**
@@ -7,9 +10,18 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "roles", schema = "public", catalog = "test")
+@JsonDeserialize(using = RoleDeserializer.class)
 public class RolesEntity {
   private int id;
   private String name;
+
+  public RolesEntity() {
+
+  }
+
+  public RolesEntity(int id) {
+    this.id = id;
+  }
 
   @Id
   @Column(name = "id")

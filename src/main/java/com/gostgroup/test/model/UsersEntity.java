@@ -1,17 +1,21 @@
 package com.gostgroup.test.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.gostgroup.test.model.serialize.UserSerializer;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by e.medvedev on 26.01.2017.
  */
 @Entity
 @Table(name = "users", schema = "public", catalog = "test")
+@JsonSerialize(using = UserSerializer.class)
 public class UsersEntity {
   @JsonIgnore
   private int id;
@@ -22,7 +26,7 @@ public class UsersEntity {
   @NotEmpty(message = "User password is required")
   @Pattern(regexp = "((?=.*\\d)(?=.*[A-Z]).{8})", message = "User password must match ((?=.*\\d)(?=.*[A-Z]).{8})")
   private String password;
-  private Collection<Integer> userRoles;
+//  private Collection<Integer> userRoles;
 
   @Id
   @SequenceGenerator(name="user_key", sequenceName="user_seq", allocationSize = 1)
@@ -90,15 +94,34 @@ public class UsersEntity {
     return result;
   }
 
-  @ElementCollection
-  @CollectionTable(name="user_roles", joinColumns=@JoinColumn(name="user_id"))
-  @Column(name = "role_id")
-  public Collection<Integer> getUserRoles() {
-    return userRoles;
+//  @ElementCollection
+//  @CollectionTable(name="user_roles", joinColumns=@JoinColumn(name="user_id"))
+//  @Column(name = "role_id")
+//  public Collection<Integer> getUserRoles() {
+//    return userRoles;
+//  }
+//
+//  public void setUserRoles(Collection<Integer> userRoles) {
+//    this.userRoles = userRoles;
+//  }
+
+  private Set<RolesEntity> roles = new HashSet<RolesEntity>();
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "user_roles",
+      //foreign key for CarsEntity in user_roles table
+      joinColumns = @JoinColumn(name = "user_id"),
+      //foreign key for other side - EmployeeEntity in employee_car table
+      inverseJoinColumns = @JoinColumn(name = "role_id"))
+  public Set<RolesEntity> getRoles() {
+    return roles;
   }
 
-  public void setUserRoles(Collection<Integer> userRoles) {
-    this.userRoles = userRoles;
+  public void setRoles(Set<RolesEntity> roles) {
+    this.roles = roles;
+  }
+
+  public void addRoles(RolesEntity role) {
+    roles.add(role);
   }
 
 }
